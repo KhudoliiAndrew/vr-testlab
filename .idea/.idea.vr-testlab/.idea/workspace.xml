@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="36bfd0d8-c635-40c7-81a6-4fc2c8051251" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.vr-testlab/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.vr-testlab/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +89,7 @@
       <option name="presentableId" value="Default" />
       <updated>1657103801044</updated>
       <workItem from="1657103917710" duration="1638000" />
-      <workItem from="1658226832588" duration="3246000" />
+      <workItem from="1658226832588" duration="3845000" />
     </task>
     <servers />
   </component>
