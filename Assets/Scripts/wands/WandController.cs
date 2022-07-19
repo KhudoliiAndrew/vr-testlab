@@ -7,21 +7,20 @@ using UnityEngine.Windows.Speech;
 
 public class WandController : MonoBehaviour
 {
-
     public GameObject pointerLight;
     public GameObject endWandMaterial;
 
-    private KeywordRecognizer keywordRecognizer;
-    private Dictionary<string, Action> actions = new Dictionary<string, Action>();
+    private KeywordRecognizer _keywordRecognizer;
+    private Dictionary<string, Action> _actions = new Dictionary<string, Action>();
   
     // Start is called before the first frame update
     void Start()
     {
-        actions.Add("light", changeWandStatus);
+        _actions.Add("light", ChangeWandStatus);
 
-        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
-        keywordRecognizer.OnPhraseRecognized += OnRecognizedSpeech;
-        keywordRecognizer.Start();
+        _keywordRecognizer = new KeywordRecognizer(_actions.Keys.ToArray());
+        _keywordRecognizer.OnPhraseRecognized += OnRecognizedSpeech;
+        _keywordRecognizer.Start();
 
     }
 
@@ -29,10 +28,10 @@ public class WandController : MonoBehaviour
     private void OnRecognizedSpeech(PhraseRecognizedEventArgs speech)
     {
         Debug.Log(speech.text);
-        actions[speech.text].Invoke();
+        _actions[speech.text].Invoke();
     }
 
-    private void changeWandStatus()
+    private void ChangeWandStatus()
     {
         pointerLight.SetActive(!pointerLight.activeSelf);
         endWandMaterial.SetActive(!endWandMaterial.activeSelf);
