@@ -1,34 +1,19 @@
 using System;
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
+using BNG;
 
-public class WandController : MonoBehaviour
+public class WandController : GrabbableEvents
 {
     public GameObject pointerLight;
     public GameObject endWandMaterial;
 
-    private KeywordRecognizer _keywordRecognizer;
-    private Dictionary<string, Action> _actions = new Dictionary<string, Action>();
-  
-    // Start is called before the first frame update
-    void Start()
+    public override void OnTriggerDown()
     {
-        _actions.Add("light", ChangeWandStatus);
+        ChangeWandStatus();
 
-        _keywordRecognizer = new KeywordRecognizer(_actions.Keys.ToArray());
-        _keywordRecognizer.OnPhraseRecognized += OnRecognizedSpeech;
-        _keywordRecognizer.Start();
-
-    }
-
-
-    private void OnRecognizedSpeech(PhraseRecognizedEventArgs speech)
-    {
-        Debug.Log(speech.text);
-        _actions[speech.text].Invoke();
+        base.OnTriggerDown();
     }
 
     private void ChangeWandStatus()
