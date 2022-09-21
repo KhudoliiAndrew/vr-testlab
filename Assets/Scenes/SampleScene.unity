@@ -170,14 +170,14 @@ GameObject:
   - component: {fileID: 201725569}
   - component: {fileID: 201725568}
   - component: {fileID: 201725567}
-  - component: {fileID: 201725566}
-  - component: {fileID: 201725565}
   - component: {fileID: 201725571}
   - component: {fileID: 201725570}
+  - component: {fileID: 201725566}
+  - component: {fileID: 201725565}
   m_Layer: 0
   m_Name: beam_wand
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2521,11 +2521,11 @@ GameObject:
   - component: {fileID: 1115865206}
   - component: {fileID: 1115865208}
   - component: {fileID: 1115865207}
+  - component: {fileID: 1115865213}
+  - component: {fileID: 1115865212}
   - component: {fileID: 1115865209}
   - component: {fileID: 1115865210}
   - component: {fileID: 1115865211}
-  - component: {fileID: 1115865213}
-  - component: {fileID: 1115865212}
   m_Layer: 0
   m_Name: lighter_wand
   m_TagString: Untagged
@@ -2677,8 +2677,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1e67a5494f4fe094f2661a1725d196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableWhenDropped: 0
   spotLight: {fileID: 1974375153}
-  wandHead: {fileID: 1051678450}
+  head: {fileID: 1051678450}
 --- !u!65 &1115865212
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3794,16 +3795,16 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 2.5749998, y: 0.98, z: 2.835}
+      - m_Value: {x: 2.5749998, y: 0.9527, z: 2.835}
         m_Name: Pos1
         m_Overridden: 1
-      - m_Value: {x: -4.065, y: 0.98, z: 3.305}
+      - m_Value: {x: -4.065, y: 0.9527, z: 3.305}
         m_Name: Pos4
         m_Overridden: 1
-      - m_Value: {x: -3.0549998, y: 1.715, z: 2.045}
+      - m_Value: {x: -3.0549998, y: 1.6877, z: 2.045}
         m_Name: Pos3
         m_Overridden: 1
-      - m_Value: {x: -1.145, y: 0.38, z: 7.005}
+      - m_Value: {x: -1.145, y: 0.3527, z: 7.005}
         m_Name: Pos2
         m_Overridden: 1
     m_Vector4f:
@@ -4909,15 +4910,16 @@ GameObject:
   - component: {fileID: 2131301056}
   - component: {fileID: 2131301055}
   - component: {fileID: 2131301054}
+  - component: {fileID: 2131301059}
+  - component: {fileID: 2131301058}
   - component: {fileID: 2131301053}
   - component: {fileID: 2131301052}
   - component: {fileID: 2131301057}
-  - component: {fileID: 2131301059}
-  - component: {fileID: 2131301058}
+  - component: {fileID: 2131301060}
   m_Layer: 0
   m_Name: grab_wand
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5065,15 +5067,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f96deab5f8a4bd6817a3888019272d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableWhenDropped: 1
+  head: {fileID: 432556043}
   beam: {fileID: 603872083}
-  startBeam: {fileID: 1911985978}
-  beam2: {fileID: 1319473398}
-  beam3: {fileID: 1464178270}
-  endBeam: {fileID: 745496060}
-  endWandMaterial: {fileID: 432556043}
-  raycastPointer: {fileID: 1384843663}
-  startTarget: {fileID: 432556044}
-  lastHit: {fileID: 0}
 --- !u!65 &2131301058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5100,6 +5096,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.03, y: 0.03, z: 0.03}
   m_Center: {x: 0, y: -0.086, z: 0}
+--- !u!114 &2131301060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131301051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a552e59568806c6479fe5d2893f81808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startBeam: {fileID: 1911985978}
+  beam2: {fileID: 1319473398}
+  beam3: {fileID: 1464178270}
+  endBeam: {fileID: 745496060}
+  startTarget: {fileID: 432556044}
+  raycastPointer: {fileID: 1384843663}
 --- !u!1001 &4889939983360161501
 PrefabInstance:
   m_ObjectHideFlags: 0

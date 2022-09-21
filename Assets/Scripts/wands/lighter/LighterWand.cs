@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace wands.lighter
 {
     public class LighterWand : Wand
     {
         public GameObject spotLight;
-        public GameObject wandHead;
+        public GameObject head;
 
         protected override void OnWandActivated()
         {
@@ -23,7 +22,7 @@ namespace wands.lighter
         private void ChangeWandStatus(bool isActive)
         {
             spotLight.SetActive(isActive);
-            wandHead.SetActive(isActive);
+            head.SetActive(isActive);
         }
     }
 }
