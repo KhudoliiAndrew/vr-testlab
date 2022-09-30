@@ -1436,7 +1436,8 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 45a95c9dc50a18f449bb6395520a1a32, type: 2}
+  - {fileID: 2100000, guid: 2858acc95ab45da4d96cb65bd6b59060, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1474,7 +1475,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799641479}
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071071}
-  m_LocalPosition: {x: -7.7199955, y: 0.62, z: 0.7399993}
+  m_LocalPosition: {x: -7.7199955, y: 0.711, z: 0.7399993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2220,7 +2221,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 05fd82b0480c1f64593f7947ebb95f7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2258,7 +2259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043800120}
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071071}
-  m_LocalPosition: {x: -7.7199965, y: 0.62, z: -0.9299997}
+  m_LocalPosition: {x: -7.7199965, y: 3.53, z: -0.9299997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5160,17 +5161,17 @@ PrefabInstance:
     - target: {fileID: 679602672955911106, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.5419
+      value: -7.234
       objectReference: {fileID: 0}
     - target: {fileID: 679602672955911106, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.576
+      value: 0.515
       objectReference: {fileID: 0}
     - target: {fileID: 679602672955911106, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.801
+      value: 1.48
       objectReference: {fileID: 0}
     - target: {fileID: 679602672955911106, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea,
         type: 3}
@@ -5212,5 +5213,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brackable Sphere
       objectReference: {fileID: 0}
+    - target: {fileID: 2957135012196079710, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2957135012196079710, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2858acc95ab45da4d96cb65bd6b59060, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0361f04bf449b4a5da7c68bcb9c7e6ea, type: 3}
