@@ -26,7 +26,7 @@ Shader "Unlit/Outline Mask"
         {
             Name "Mask"
             Cull Off
-            ZTest Always
+            ZTest [_ZTest]
             ZWrite Off
             ColorMask 0
 

@@ -2,8 +2,10 @@ Shader "Custom/2DOutlineSurfaceShader"
 {
     Properties
     {
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
+
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
-        _OutlineThickness ("Outline Thickness", Range(0,1)) = .5
+        _OutlineThickness ("Outline Thickness", Range(0,10)) = .5
     }
     SubShader
     {
@@ -11,7 +13,7 @@ Shader "Custom/2DOutlineSurfaceShader"
         {
             "Queue" = "1"
             "RenderType" = "Transparent"
-           // "DisableBatching" = "True"
+            // "DisableBatching" = "True"
         }
         //LOD 200
 
@@ -21,7 +23,7 @@ Shader "Custom/2DOutlineSurfaceShader"
         {
             Cull Back
             ZWrite On
-            ZTest LEqual
+            ZTest [_ZTest]
 
             Stencil
             {
@@ -48,7 +50,8 @@ Shader "Custom/2DOutlineSurfaceShader"
             v2f vert(appdata_base input)
             {
                 v2f o;
-                input.vertex.xyz += input.normal * _OutlineThickness * .005f;
+                // input.vertex.xyz += input.normal * 10 * .005f;
+                input.vertex.xyz += 1 * 10 * .005f;
                 o.pos = UnityObjectToClipPos(input.vertex);
 
                 return o;
