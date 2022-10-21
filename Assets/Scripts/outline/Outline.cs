@@ -68,8 +68,11 @@ public class Outline : MonoBehaviour {
       // Append outline shaders
       var materials = renderer.sharedMaterials.ToList();
 
-      materials.Add(_outlineMaskMaterial);
-      materials.Add(_outlineFillMaterial);
+      if(!IsHaveMaterials(materials, _outlineMaskMaterial.name))
+        materials.Add(_outlineMaskMaterial);
+      
+      if(!IsHaveMaterials(materials, _outlineFillMaterial.name))
+        materials.Add(_outlineFillMaterial);
 
       renderer.materials = materials.ToArray();
     }
@@ -103,8 +106,8 @@ public class Outline : MonoBehaviour {
   void OnDestroy() {
 
     // Destroy material instances
-    Destroy(_outlineMaskMaterial);
-    Destroy(_outlineFillMaterial);
+    DestroyImmediate(_outlineMaskMaterial);
+    DestroyImmediate(_outlineFillMaterial);
   }
 
   void UpdateMaterialProperties() {
@@ -115,5 +118,18 @@ public class Outline : MonoBehaviour {
     _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
     _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
     _outlineFillMaterial.SetFloat("_OutlineThickness", outlineWidth);
+  }
+
+  bool IsHaveMaterials( List<Material> materials, String tragetName)
+  {
+    for (int i = 0; i < materials.Count; i++)
+    {
+      Material material = materials[i];
+
+      if (material.name == tragetName) return true;
+    }
+
+    return false;
+
   }
 }

@@ -17,8 +17,9 @@ Shader "Unlit/Outline Mask"
     {
         Tags
         {
-            "Queue" = "0"
+//            "Queue" = "0"
             "RenderType" = "Transparent"
+            "Queue" = "Transparent+1"
         }
         LOD 100
 
@@ -35,7 +36,7 @@ Shader "Unlit/Outline Mask"
                 Ref 1
                 Pass Replace
             }
-            
+
         }
     }
 }

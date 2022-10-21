@@ -11,7 +11,7 @@ Shader "Custom/2DOutlineSurfaceShader"
     {
         Tags
         {
-            "Queue" = "1"
+            "Queue" = "Transparent+1"
             "RenderType" = "Transparent"
             // "DisableBatching" = "True"
         }
@@ -47,13 +47,25 @@ Shader "Custom/2DOutlineSurfaceShader"
                 float4 pos : SV_POSITION;
             };
 
-            v2f vert(appdata_base input)
+            v2f vert(appdata_full input)
             {
                 v2f o;
-                // input.vertex.xyz += input.normal * 10 * .005f;
-                input.vertex.xyz += 1 * 10 * .005f;
-                o.pos = UnityObjectToClipPos(input.vertex);
 
+                float aspect = _ScreenParams.x * (_ScreenParams.w - 1); //width times 1/height
+
+                float length = input.normal[0];
+                // input.vertex
+                // input.vertex.xyz += input.normal * 10 * .005f;
+                input.vertex.xyz += normalize(input.normal.xyz) * (2 / aspect) * .001f;
+
+                float4 worldPos = mul(unity_ObjectToWorld, float4(input.vertex.xyz, 1.0));
+                float3 worldNormal = UnityObjectToWorldNormal(input.normal);
+                worldPos.xyz += worldNormal * .001;
+                o.pos = mul(UNITY_MATRIX_VP, worldPos);
+                
+                //o.pos = UnityObjectToClipPos(input.vertex);
+
+                UNITY_TRANSFER_FOG(o, o.vertex);
                 return o;
             }
 
