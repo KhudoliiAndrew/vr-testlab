@@ -5,7 +5,6 @@ Shader "Custom/2DOutlineSurfaceShader"
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
 
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
-        _OutlineThickness ("Outline Thickness", Range(0,10)) = .5
     }
     SubShader
     {
@@ -13,12 +12,9 @@ Shader "Custom/2DOutlineSurfaceShader"
         {
             "Queue" = "Transparent+1"
             "RenderType" = "Transparent"
-            // "DisableBatching" = "True"
         }
-        //LOD 200
 
         // render outline
-
         Pass
         {
             Cull Back
@@ -38,8 +34,8 @@ Shader "Custom/2DOutlineSurfaceShader"
             //define vertex and fragment shader
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_fog
 
-            half _OutlineThickness;
             fixed4 _OutlineColor;
 
             struct v2f
@@ -47,23 +43,22 @@ Shader "Custom/2DOutlineSurfaceShader"
                 float4 pos : SV_POSITION;
             };
 
-            v2f vert(appdata_full input)
+            v2f vert(appdata_base input)
             {
                 v2f o;
 
-                float aspect = _ScreenParams.x * (_ScreenParams.w - 1); //width times 1/height
+                const float3 world_scale = float3(
+                    // scale x axis
+                    length(float3(unity_ObjectToWorld[0].x, unity_ObjectToWorld[1].x, unity_ObjectToWorld[2].x)),
+                    // scale y axis
+                    length(float3(unity_ObjectToWorld[0].y, unity_ObjectToWorld[1].y, unity_ObjectToWorld[2].y)),
+                    // scale z axis
+                    length(float3(unity_ObjectToWorld[0].z, unity_ObjectToWorld[1].z, unity_ObjectToWorld[2].z))
+                );
 
-                float length = input.normal[0];
-                // input.vertex
-                // input.vertex.xyz += input.normal * 10 * .005f;
-                input.vertex.xyz += normalize(input.normal.xyz) * (2 / aspect) * .001f;
-
-                float4 worldPos = mul(unity_ObjectToWorld, float4(input.vertex.xyz, 1.0));
-                float3 worldNormal = UnityObjectToWorldNormal(input.normal);
-                worldPos.xyz += worldNormal * .001;
-                o.pos = mul(UNITY_MATRIX_VP, worldPos);
+                input.vertex.xyz += input.normal * 3 * .005f / world_scale;
                 
-                //o.pos = UnityObjectToClipPos(input.vertex);
+                o.pos = UnityObjectToClipPos(input.vertex);
 
                 UNITY_TRANSFER_FOG(o, o.vertex);
                 return o;
