@@ -1,12 +1,4 @@
-﻿//
-//  OutlineMask.shader
-//  QuickOutline
-//
-//  Created by Chris Nolet on 2/21/18.
-//  Copyright © 2018 Chris Nolet. All rights reserved.
-//
-
-Shader "Unlit/Outline Mask"
+﻿Shader "Unlit/2DOutlineMask"
 {
     Properties
     {
@@ -17,7 +9,6 @@ Shader "Unlit/Outline Mask"
     {
         Tags
         {
-//            "Queue" = "0"
             "RenderType" = "Transparent"
             "Queue" = "Transparent+1"
         }

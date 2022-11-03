@@ -38,14 +38,42 @@ Shader "Custom/2DOutlineSurfaceShader"
 
             fixed4 _OutlineColor;
 
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
             struct v2f
             {
                 float4 pos : SV_POSITION;
+
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            v2f vert(appdata_base input)
+            v2f vert(appdata v)
             {
                 v2f o;
+
+                /// calculates and sets the built-in unity_StereoEyeIndex and unity_InstanceID shader variables
+                /// to the correct values based on which eye the GPU is currently rendering.
+                UNITY_SETUP_INSTANCE_ID(v);
+
+                /// initializes all v2f values to 0.
+                UNITY_INITIALIZE_OUTPUT(v2f, o);
+
+                /// tells the GPU which eye in the texture array it should render to, based on the value of unity_StereoEyeIndex.
+                /// This macro also transfers the value of unity_StereoEyeIndex from the vertex shader
+                /// so that it will be accessible in the fragment shader only if UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
+                /// is called in the fragment shader frag method.
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+                /// making shader works even on the layers where unity's fog is enabled
+                // UNITY_TRANSFER_FOG(o, o.vertex);
 
                 const float3 world_scale = float3(
                     // scale x axis
@@ -56,11 +84,11 @@ Shader "Custom/2DOutlineSurfaceShader"
                     length(float3(unity_ObjectToWorld[0].z, unity_ObjectToWorld[1].z, unity_ObjectToWorld[2].z))
                 );
 
-                input.vertex.xyz += input.normal * 3 * .005f / world_scale;
-                
-                o.pos = UnityObjectToClipPos(input.vertex);
+                /// dividing by object's scale to make outline width the same on every object
+                v.vertex.xyz += v.normal * 3 * .005f / world_scale;
 
-                UNITY_TRANSFER_FOG(o, o.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
+
                 return o;
             }
 
