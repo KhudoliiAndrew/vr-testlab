@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace outline
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    public class Outline : MonoBehaviour
+    public class OutlineSettings : MonoBehaviour
     {
         [SerializeField] private Color outlineColor = Color.white;
 
@@ -41,8 +40,14 @@ namespace outline
                 renderer.materials = materials.ToArray();
             }
 
+            if (gameObject.GetComponent<OutlineController>() == null)
+                gameObject.AddComponent<OutlineController>().outlineFillMaterial = _outlineFillMaterial;
+            else
+                gameObject.GetComponent<OutlineController>().enabled = true;
+
             UpdateMaterialProperties();
         }
+
         void Update()
         {
             UpdateMaterialProperties();
@@ -60,6 +65,8 @@ namespace outline
 
                 renderer.materials = materials.ToArray();
             }
+
+            gameObject.GetComponent<OutlineController>().enabled = false;
         }
 
         void OnDestroy()
@@ -67,6 +74,7 @@ namespace outline
             // Destroy material instances
             DestroyImmediate(_outlineMaskMaterial);
             DestroyImmediate(_outlineFillMaterial);
+            DestroyImmediate(gameObject.GetComponent<OutlineController>());
         }
 
         void UpdateMaterialProperties()
@@ -78,37 +86,16 @@ namespace outline
             _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
         }
 
-        bool IsHaveMaterials(List<Material> materials, String tragetName)
+        bool IsHaveMaterials(List<Material> materials, String targetName)
         {
             for (int i = 0; i < materials.Count; i++)
             {
                 Material material = materials[i];
 
-                if (material.name == tragetName) return true;
+                if (material.name == targetName) return true;
             }
 
             return false;
         }
-
-        // private IEnumerator Move(float duration)
-        // {
-        //     var startPos = _outlineFillMaterial.GetFloat("_OutlineThickness");
-        //
-        //     var targetPos = new Vector3(0, 10, 0);
-        //
-        //     var timer = 0f;
-        //
-        //     while (timer < duration)
-        //     {
-        //         transform.position = Mathf.Lerp(startPos, targetPos, timer / duration);
-        //
-        //         _outlineFillMaterial.SetFloat("_OutlineThickness", outlineWidth);
-        //
-        //         timer += Time.deltaTime;
-        //         yield return null;
-        //     }
-        //
-        //     transform.position = targetPos;
-        // }
     }
 }

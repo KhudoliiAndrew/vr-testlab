@@ -6,7 +6,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Dimens : MonoBehaviour
 {
-    [SerializeField, Range(0f, 10f)] private float outlineWidth = 3f;
+    [Range(0f, 10f)] public const float OutlineWidth = 3f;
+
+    [Range(0f, 3f)] public const float FastDuration = 1.5f;
 
     void Awake()
     {
@@ -26,6 +28,6 @@ public class Dimens : MonoBehaviour
 
     private void UpdateShadersProperties()
     {
-        Shader.SetGlobalFloat("_2DOutlineWidthMax", outlineWidth);
+        Shader.SetGlobalFloat("_2DOutlineWidthMax", OutlineWidth);
     }
 }
