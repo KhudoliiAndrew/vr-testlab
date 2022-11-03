@@ -5,6 +5,8 @@ Shader "Custom/2DOutlineSurfaceShader"
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
 
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
+        [HideInInspector] _2DOutlineWidth ("Outline Width", float) = 3
+
     }
     SubShader
     {
@@ -37,7 +39,8 @@ Shader "Custom/2DOutlineSurfaceShader"
             #pragma multi_compile_fog
 
             fixed4 _OutlineColor;
-
+            uniform float _2DOutlineWidth;
+            uniform float _2DOutlineWidthMax;
 
             struct appdata
             {
@@ -85,7 +88,7 @@ Shader "Custom/2DOutlineSurfaceShader"
                 );
 
                 /// dividing by object's scale to make outline width the same on every object
-                v.vertex.xyz += v.normal * 3 * .005f / world_scale;
+                v.vertex.xyz += v.normal * clamp(_2DOutlineWidth, 0, _2DOutlineWidthMax) * .005f / world_scale;
 
                 o.pos = UnityObjectToClipPos(v.vertex);
 
