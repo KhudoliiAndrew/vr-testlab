@@ -11,17 +11,17 @@ namespace outline
     {
         [SerializeField] private Color outlineColor = Color.white;
 
-        private Material _outlineMaskMaterial;
-        private Material _outlineFillMaterial;
+        [HideInInspector] public Material outlineMaskMaterial;
+        [HideInInspector] public Material outlineFillMaterial;
 
         void Awake()
         {
             // Instantiate outline materials
-            _outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Shaders/outline/variant1/2DOutlineMask"));
-            _outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Shaders/outline/variant1/2DOutline"));
+            outlineMaskMaterial = Instantiate(Resources.Load<Material>(ResourcesPaths.OutlineMaskShader));
+            outlineFillMaterial = Instantiate(Resources.Load<Material>(ResourcesPaths.OutlineShader));
 
-            _outlineMaskMaterial.name = "OutlineMask (Instance)";
-            _outlineFillMaterial.name = "OutlineFill (Instance)";
+            outlineMaskMaterial.name = Constants.PrefabOutlineMaskName;
+            outlineFillMaterial.name = Constants.PrefabOutlineFillName;
         }
 
         void OnEnable()
@@ -31,17 +31,17 @@ namespace outline
                 // Append outline shaders
                 var materials = renderer.sharedMaterials.ToList();
 
-                if (!IsHaveMaterials(materials, _outlineMaskMaterial.name))
-                    materials.Add(_outlineMaskMaterial);
+                if (!IsHaveMaterials(materials, outlineMaskMaterial.name))
+                    materials.Add(outlineMaskMaterial);
 
-                if (!IsHaveMaterials(materials, _outlineFillMaterial.name))
-                    materials.Add(_outlineFillMaterial);
+                if (!IsHaveMaterials(materials, outlineFillMaterial.name))
+                    materials.Add(outlineFillMaterial);
 
                 renderer.materials = materials.ToArray();
             }
 
             if (gameObject.GetComponent<OutlineController>() == null)
-                gameObject.AddComponent<OutlineController>().outlineFillMaterial = _outlineFillMaterial;
+                gameObject.AddComponent<OutlineController>();
             else
                 gameObject.GetComponent<OutlineController>().enabled = true;
 
@@ -60,8 +60,8 @@ namespace outline
                 // Remove outline shaders
                 var materials = renderer.sharedMaterials.ToList();
 
-                materials.Remove(_outlineMaskMaterial);
-                materials.Remove(_outlineFillMaterial);
+                materials.Remove(outlineMaskMaterial);
+                materials.Remove(outlineFillMaterial);
 
                 renderer.materials = materials.ToArray();
             }
@@ -72,18 +72,20 @@ namespace outline
         void OnDestroy()
         {
             // Destroy material instances
-            DestroyImmediate(_outlineMaskMaterial);
-            DestroyImmediate(_outlineFillMaterial);
+            DestroyImmediate(outlineMaskMaterial);
+            DestroyImmediate(outlineFillMaterial);
             DestroyImmediate(gameObject.GetComponent<OutlineController>());
         }
 
         void UpdateMaterialProperties()
         {
             // Apply properties according to mode
-            _outlineFillMaterial.SetColor("_OutlineColor", outlineColor);
+            outlineFillMaterial.SetColor(Constants.OutlineColorName, outlineColor);
 
-            _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
-            _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+            outlineMaskMaterial.SetFloat(Constants.ShaderZTestName,
+                (float)UnityEngine.Rendering.CompareFunction.Greater);
+            outlineFillMaterial.SetFloat(Constants.ShaderZTestName,
+                (float)UnityEngine.Rendering.CompareFunction.Always);
         }
 
         bool IsHaveMaterials(List<Material> materials, String targetName)

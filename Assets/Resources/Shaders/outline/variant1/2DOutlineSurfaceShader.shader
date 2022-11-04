@@ -5,7 +5,7 @@ Shader "Custom/2DOutlineSurfaceShader"
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
 
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
-        [HideInInspector] _2DOutlineWidth ("Outline Width", float) = 3
+        [HideInInspector] _2DOutlineWidth ("Outline Width", float) = 0
 
     }
     SubShader
