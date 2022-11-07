@@ -8,7 +8,6 @@ public class Constants
 
     public const String ShaderZTestName = "_ZTest";
 
-    public const String PrefabInstanceEnding = " (Instance)";
     public const String PrefabOutlineMaskName = "Outline Mask";
     public const String PrefabOutlineFillName = "Outline Fill";
 }

@@ -9,8 +9,6 @@ namespace outline
     [ExecuteInEditMode]
     public class OutlineSettings : MonoBehaviour
     {
-        [SerializeField] private Color outlineColor = Color.white;
-
         [HideInInspector] public Material outlineMaskMaterial;
         [HideInInspector] public Material outlineFillMaterial;
 
@@ -79,9 +77,6 @@ namespace outline
 
         void UpdateMaterialProperties()
         {
-            // Apply properties according to mode
-            outlineFillMaterial.SetColor(Constants.OutlineColorName, outlineColor);
-
             outlineMaskMaterial.SetFloat(Constants.ShaderZTestName,
                 (float)UnityEngine.Rendering.CompareFunction.Greater);
             outlineFillMaterial.SetFloat(Constants.ShaderZTestName,

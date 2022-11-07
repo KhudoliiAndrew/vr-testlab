@@ -9,7 +9,10 @@ namespace outline
     public class OutlineController : MonoBehaviour
     {
         public bool isVisible;
+        public Color outlineColor = Color.white;
+        
         private bool _lastVisibleState;
+        private Color _lastOutlineColor;
 
         private void Update()
         {
@@ -17,6 +20,12 @@ namespace outline
             {
                 StartCoroutine(UpdateState(isVisible));
                 _lastVisibleState = isVisible;
+            }
+            
+            if (_lastOutlineColor != outlineColor)
+            {
+                StartCoroutine(UpdateColor(outlineColor));
+                _lastOutlineColor = outlineColor;
             }
         }
 
@@ -36,7 +45,37 @@ namespace outline
                 yield return null;
             }
         }
+        
+        private IEnumerator UpdateColor(Color color)
+        {
+            const float duration = Dimens.FastDuration;
+            var timer = 0f;
 
+            while (timer < duration)
+            {
+                var startColor = GetOutlineColor();
+
+                SetOutlineColor(Color.Lerp(startColor, color, Time.deltaTime / (duration - timer)));
+                
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
+        
+        
+        private void SetOutlineColor(Color color)
+        {
+            gameObject.GetComponent<OutlineSettings>().outlineFillMaterial.SetColor(Constants.OutlineColorName, color);
+        }
+
+        private Color GetOutlineColor()
+        {
+            var value = gameObject.GetComponent<OutlineSettings>().outlineFillMaterial
+                .GetColor(Constants.OutlineColorName);
+
+            return value;
+        }
+        
         private void SetOutlineValue(float value)
         {
             gameObject.GetComponent<OutlineSettings>().outlineFillMaterial.SetFloat(Constants.OutlineWidthName, value);
@@ -49,5 +88,6 @@ namespace outline
 
             return Math.Clamp(value, 0, Dimens.OutlineWidth);
         }
+
     }
 }
