@@ -8,22 +8,21 @@ namespace wands.grab
         public GameObject head;
         public GameObject beam;
 
-        private BeamController _beamController;
-
-        protected override void Awake()
-        {
-            _beamController = gameObject.GetComponent<BeamController>();
-        }
-
+        public bool isActive;
+        
         protected override void OnWandHolding(bool isHolding)
         {
+            isActive = isHolding;
+            
             ChangeWandStatus(isHolding);
             base.OnWandHolding(isHolding);
         }
 
         private void ChangeWandStatus(bool isHolding)
         {
-            _beamController.SetBeamVisibility(isHolding);
+            isActive = isHolding;
+
+            beam.SetActive(isHolding);
             head.SetActive(isHolding);
         }
     }

@@ -12,14 +12,12 @@ public class BeamController : MonoBehaviour
     public Transform startTarget;
 
     private GrabbableController _grabbableController;
-    private GrabWand _grabWand;
 
     private bool _isObjectSelected;
 
     private void Awake()
     {
         _grabbableController = gameObject.GetComponent<GrabbableController>();
-        _grabWand = gameObject.GetComponent<GrabWand>();
     }
 
     private void Update()
@@ -35,16 +33,16 @@ public class BeamController : MonoBehaviour
         {
             UpdateHoverBeam(.0f);
             SetEndPosition(_grabbableController.selectedObject.transform.position);
+            gameObject.GetComponent<GrabWand>().beam.SetActive(true);
         }
         else
         {
-           _grabWand.beam.SetActive(false);
+            gameObject.GetComponent<GrabWand>().beam.SetActive(false);
         }
     }
 
     private void SetEndPosition(Vector3 position)
     {
-        // endBeam.position = hit.point;
         endBeam.position = position;
 
         var wandPosition = transform.position;
@@ -57,11 +55,6 @@ public class BeamController : MonoBehaviour
     {
         pointerBeam.localScale = new Vector3(pointerBeam.localScale.x, distance, pointerBeam.localScale.z);
         pointerBeam.transform.localPosition = new Vector3(0, distance, 0);
-    }
-
-    public void SetBeamVisibility(bool isVisible)
-    {
-        _grabWand.beam.SetActive(isVisible);
     }
 
     private Vector3 _CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)

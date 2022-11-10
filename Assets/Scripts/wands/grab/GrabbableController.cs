@@ -8,7 +8,7 @@ namespace wands.grab
         public GameObject targetPointer;
         public RaycastHit RayOutput;
 
-        public GameObject selectedObject;
+        [HideInInspector] public GameObject selectedObject;
         private GameObject _lastHittedObject;
 
         void FixedUpdate()
@@ -31,15 +31,17 @@ namespace wands.grab
 
             if (selectedObject != null)
             {
-                selectedObject.transform.position = Vector3.Lerp(selectedObject.transform.position,
-                    targetPointer.transform.position, Time.deltaTime * 1.5f);
+                var movingVector = (targetPointer.transform.position - selectedObject.transform.position).normalized;
+                Vector3 dir = movingVector * 8f;
+
+                selectedObject.GetComponent<Rigidbody>().velocity = dir;
             }
         }
 
         private void OnObjectCollided(RaycastHit hit)
         {
             if (!IsGrabbing() && selectedObject != null) selectedObject = null;
-            
+
             if (selectedObject != null) return;
 
             // GameObject here is always != null
@@ -53,7 +55,7 @@ namespace wands.grab
                 _lastHittedObject = null;
                 return;
             }
-            
+
             ControlSelect(hittedObject, SelectableType.Hover);
 
 
@@ -67,7 +69,7 @@ namespace wands.grab
         {
             targetPointer.transform.localPosition = new Vector3(0,
                 Vector3.Distance(o.transform.position, gameObject.transform.position), 0);
-            
+
             selectedObject = o;
 
             UpdateObjectPhysicsParameters(selectedObject, false);
@@ -97,6 +99,6 @@ namespace wands.grab
             gameObject.GetComponent<Selectable>().UpdateStatus(type);
         }
 
-        private bool IsGrabbing() => GetComponent<GrabWand>().beam.activeSelf;
+        private bool IsGrabbing() => GetComponent<GrabWand>().isActive;
     }
 }
