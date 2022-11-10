@@ -7,7 +7,14 @@ namespace wands.grab
         [Header("Wand parts")]
         public GameObject head;
         public GameObject beam;
-        
+
+        private BeamController _beamController;
+
+        protected override void Awake()
+        {
+            _beamController = gameObject.GetComponent<BeamController>();
+        }
+
         protected override void OnWandHolding(bool isHolding)
         {
             ChangeWandStatus(isHolding);
@@ -16,7 +23,7 @@ namespace wands.grab
 
         private void ChangeWandStatus(bool isHolding)
         {
-            beam.SetActive(isHolding);
+            _beamController.SetBeamVisibility(isHolding);
             head.SetActive(isHolding);
         }
     }

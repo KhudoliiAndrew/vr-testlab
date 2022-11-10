@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using outline;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum SelectableType {Selected, Hover, Unselected};
@@ -48,7 +47,7 @@ public class Selectable : MonoBehaviour
     private void _UnselectObject()
     {
         _controller.isVisible = false;
-        _controller.outlineColor = Color.clear;
+        _controller.outlineColor = Dimens.OutlineHoverColor.WithAlpha(.0f);
     }
 
     private void _checkOutlineScript()

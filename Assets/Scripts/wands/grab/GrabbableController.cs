@@ -4,70 +4,80 @@ namespace wands.grab
 {
     public class GrabbableController : MonoBehaviour
     {
-        [Header("Beam Parameters")] public Transform startBeam;
-        public Transform beam2;
-        public Transform beam3;
-        public Transform endBeam;
-        public Transform pointerBeam;
-
-        public Transform startTarget;
-
-        private Vector3 _collision = Vector3.zero;
-        private GameObject lastHittedObject;
-
         public GameObject raycastPointer;
+        public GameObject targetPointer;
+        public RaycastHit RayOutput;
+
+        public GameObject selectedObject;
+        private GameObject _lastHittedObject;
 
         void FixedUpdate()
         {
-            startBeam.position = startTarget.position;
             var ray = new Ray(raycastPointer.transform.position, raycastPointer.transform.forward);
-            RaycastHit hit;
-           
-            if (Physics.Raycast(ray, out hit, 1000))
+
+            if (Physics.Raycast(ray, out RayOutput, 1000))
             {
-                var o = hit.transform.gameObject;
-
-                if (o != null && o.GetComponent<Rigidbody>() != null)
-                    ControlSelect(o, SelectableType.Hover);
-                
-                if (o != lastHittedObject)
-                {
-                    UpdateObjectPhysicsParameters(lastHittedObject, true);
-                    ControlSelect(lastHittedObject, SelectableType.Unselected);
-                    lastHittedObject = o;
-                }
-
-                UpdateHoverBeam(Vector3.Distance(hit.point, transform.position));
-                
-                if (!ShouldBeUpdated())
-                {
-                    UpdateObjectPhysicsParameters(o, true);
-                    return;
-                }
-
-                if (o != null && o.GetComponent<Rigidbody>() == null) return;
-
-                endBeam.position = hit.point;
-                _collision = hit.point;
-
-                hit.transform.gameObject.transform.position = Vector3.Lerp(o.transform.position,
-                    hit.point, Time.deltaTime * 1.5f);
-
-                UpdateObjectPhysicsParameters(o, false);
-                ControlSelect(lastHittedObject, SelectableType.Selected);
+                OnObjectCollided(RayOutput);
             }
             else
             {
-                UpdateObjectPhysicsParameters(lastHittedObject, true);
-                ControlSelect(lastHittedObject, SelectableType.Unselected);
+                if (!IsGrabbing())
+                {
+                    ReleaseLastObject();
+                    _lastHittedObject = null;
+                    selectedObject = null;
+                }
+            }
 
+            if (selectedObject != null)
+            {
+                selectedObject.transform.position = Vector3.Lerp(selectedObject.transform.position,
+                    targetPointer.transform.position, Time.deltaTime * 1.5f);
             }
         }
 
-        void OnDrawGizmos()
+        private void OnObjectCollided(RaycastHit hit)
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(_collision, 1.0f);
+            if (!IsGrabbing() && selectedObject != null) selectedObject = null;
+            
+            if (selectedObject != null) return;
+
+            // GameObject here is always != null
+            GameObject hittedObject = hit.transform.gameObject;
+
+            // The wand is pointed to the new object
+            ReleaseLastObject();
+
+            if (hittedObject.GetComponent<Rigidbody>() == null)
+            {
+                _lastHittedObject = null;
+                return;
+            }
+            
+            ControlSelect(hittedObject, SelectableType.Hover);
+
+
+            if (IsGrabbing()) OnWandReadyToGrab(hittedObject);
+            else UpdateObjectPhysicsParameters(hittedObject, true);
+
+            _lastHittedObject = hittedObject;
+        }
+
+        private void OnWandReadyToGrab(GameObject o)
+        {
+            targetPointer.transform.localPosition = new Vector3(0,
+                Vector3.Distance(o.transform.position, gameObject.transform.position), 0);
+            
+            selectedObject = o;
+
+            UpdateObjectPhysicsParameters(selectedObject, false);
+            ControlSelect(selectedObject, SelectableType.Selected);
+        }
+
+        private void ReleaseLastObject()
+        {
+            UpdateObjectPhysicsParameters(_lastHittedObject, true);
+            ControlSelect(_lastHittedObject, SelectableType.Unselected);
         }
 
         private void UpdateObjectPhysicsParameters(GameObject gameObject, bool isPhysics)
@@ -79,23 +89,14 @@ namespace wands.grab
 
         private void ControlSelect(GameObject gameObject, SelectableType type)
         {
-            if(gameObject == null || gameObject.GetComponent<Rigidbody>() == null) return;
-            
+            if (gameObject == null || gameObject.GetComponent<Rigidbody>() == null) return;
+
             if (gameObject.GetComponent<Selectable>() == null)
                 gameObject.AddComponent<Selectable>();
 
             gameObject.GetComponent<Selectable>().UpdateStatus(type);
         }
 
-        private void UpdateHoverBeam(float distance)
-        {
-            pointerBeam.localScale = new Vector3(pointerBeam.localScale.x, distance, pointerBeam.localScale.z);
-            pointerBeam.transform.localPosition = new Vector3(0, distance, 0);
-        }
-
-        private bool ShouldBeUpdated()
-        {
-            return GetComponent<GrabWand>().beam.activeSelf;
-        }
+        private bool IsGrabbing() => GetComponent<GrabWand>().beam.activeSelf;
     }
 }
