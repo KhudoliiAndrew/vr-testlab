@@ -1,17 +1,37 @@
+using System;
 using BNG;
 using UnityEngine;
 
 public abstract class Wand : GrabbableEvents
 {
-    [Header("Settings")]
-    public bool disableWhenDropped;
+    [Header("Settings")] public bool disableWhenDropped;
 
     private bool _isActivated;
-    
+
+    private void Update()
+    {
+        TouchpadParser();
+    }
+
+    private void TouchpadParser()
+    {
+        if(thisGrabber == null) return;
+        
+        Vector2 touchpadInput = Vector2.zero;
+
+        if (thisGrabber.HandSide == ControllerHand.Left)
+            touchpadInput = input.LeftThumbstickAxis;
+        
+        if (thisGrabber.HandSide == ControllerHand.Right)
+            touchpadInput = input.RightThumbstickAxis;
+
+        OnThumbstickAxis(touchpadInput);
+    }
+
     public override void OnTriggerDown()
     {
         _isActivated = !_isActivated;
-        
+
         if (_isActivated) OnWandActivated();
         else OnWandDisabled();
 
@@ -34,7 +54,7 @@ public abstract class Wand : GrabbableEvents
             OnWandDisabled();
             OnWandHolding(false);
         }
-        
+
         base.OnRelease();
     }
 
@@ -47,6 +67,10 @@ public abstract class Wand : GrabbableEvents
     }
 
     protected virtual void OnWandHolding(bool isHolding)
+    {
+    }
+
+    protected virtual void OnThumbstickAxis(Vector2 input)
     {
     }
 }

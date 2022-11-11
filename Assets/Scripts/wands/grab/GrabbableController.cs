@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace wands.grab
@@ -11,13 +12,20 @@ namespace wands.grab
         [HideInInspector] public GameObject selectedObject;
         private GameObject _lastHittedObject;
 
+        private float _targetObjectPointDistance;
+
+        private void Awake()
+        {
+            GetComponent<GrabWand>().OnThumbstickAxisCallback = OnThumbstickAxisCallback;
+        }
+
         void FixedUpdate()
         {
             var ray = new Ray(raycastPointer.transform.position, raycastPointer.transform.forward);
 
             if (Physics.Raycast(ray, out RayOutput, 1000))
             {
-                OnObjectCollided(RayOutput);
+                OnObjectCollided(RayOutput.transform.gameObject);
             }
             else
             {
@@ -28,6 +36,9 @@ namespace wands.grab
                     selectedObject = null;
                 }
             }
+            
+            if(targetPointer.transform.localPosition.y != _targetObjectPointDistance)
+                targetPointer.transform.localPosition = new Vector3(0, _targetObjectPointDistance, 0);
 
             if (selectedObject != null)
             {
@@ -38,14 +49,13 @@ namespace wands.grab
             }
         }
 
-        private void OnObjectCollided(RaycastHit hit)
+        // GameObject here is always != null
+        private void OnObjectCollided(GameObject hittedObject)
         {
             if (!IsGrabbing() && selectedObject != null) selectedObject = null;
 
             if (selectedObject != null) return;
 
-            // GameObject here is always != null
-            GameObject hittedObject = hit.transform.gameObject;
 
             // The wand is pointed to the new object
             ReleaseLastObject();
@@ -67,8 +77,7 @@ namespace wands.grab
 
         private void OnWandReadyToGrab(GameObject o)
         {
-            targetPointer.transform.localPosition = new Vector3(0,
-                Vector3.Distance(o.transform.position, gameObject.transform.position), 0);
+            SetTargetObjectPointDistance(Vector3.Distance(o.transform.position, gameObject.transform.position));
 
             selectedObject = o;
 
@@ -97,6 +106,16 @@ namespace wands.grab
                 gameObject.AddComponent<Selectable>();
 
             gameObject.GetComponent<Selectable>().UpdateStatus(type);
+        }
+
+        private void SetTargetObjectPointDistance(float position)
+        {
+            _targetObjectPointDistance = Math.Clamp(position, 2f, 10000);
+        }
+        
+        private void OnThumbstickAxisCallback(Vector2 input)
+        {
+            SetTargetObjectPointDistance(_targetObjectPointDistance + input.y * .5f);
         }
 
         private bool IsGrabbing() => GetComponent<GrabWand>().isActive;

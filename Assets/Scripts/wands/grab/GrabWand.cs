@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace wands.grab
@@ -10,6 +11,8 @@ namespace wands.grab
 
         public bool isActive;
         
+        public Action<Vector2> OnThumbstickAxisCallback;
+
         protected override void OnWandHolding(bool isHolding)
         {
             isActive = isHolding;
@@ -24,6 +27,12 @@ namespace wands.grab
 
             beam.SetActive(isHolding);
             head.SetActive(isHolding);
+        }
+
+        protected override void OnThumbstickAxis(Vector2 input)
+        {
+            OnThumbstickAxisCallback(input);
+            base.OnThumbstickAxis(input);
         }
     }
 }

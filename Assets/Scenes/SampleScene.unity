@@ -3377,6 +3377,11 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3719865058671406943, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8516297021300253502, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: m_Color.b
@@ -3579,7 +3584,7 @@ Transform:
   m_Father: {fileID: 2131301056}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!21 &1441842583
+--- !u!21 &1401031098
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -3700,7 +3705,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _2DOutlineWidth: 5.8831463
+    - _2DOutlineWidth: 5.3501463
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -5659,6 +5664,31 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &1899031071
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Outline Mask
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 5
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1 &1911985977
 GameObject:
   m_ObjectHideFlags: 0
@@ -5787,31 +5817,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932569167}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &1956585194
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Outline Mask
-  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _ZTest: 5
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1 &1962910472
 GameObject:
   m_ObjectHideFlags: 0
@@ -6641,6 +6646,7 @@ MonoBehaviour:
   disableWhenDropped: 1
   head: {fileID: 432556043}
   beam: {fileID: 603872083}
+  isActive: 0
 --- !u!65 &2131301058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6732,8 +6738,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaskMaterial: {fileID: 1956585194}
-  outlineFillMaterial: {fileID: 1441842583}
+  outlineMaskMaterial: {fileID: 1899031071}
+  outlineFillMaterial: {fileID: 1401031098}
 --- !u!1 &1372703303578243294
 GameObject:
   m_ObjectHideFlags: 0
