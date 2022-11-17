@@ -13,7 +13,7 @@ namespace wands.grab
         private GameObject _lastHittedObject;
 
         private float _targetObjectPointDistance;
-
+        private float _dragVelocity = 1f;
         private void Awake()
         {
             GetComponent<GrabWand>().OnThumbstickAxisCallback = OnThumbstickAxisCallback;
@@ -42,9 +42,25 @@ namespace wands.grab
 
             if (selectedObject != null)
             {
-                var movingVector = (targetPointer.transform.position - selectedObject.transform.position).normalized;
-                Vector3 dir = movingVector * 8f;
+                float distance =
+                    Vector3.Distance(selectedObject.transform.position, targetPointer.transform.position);
+                if (Vector3.Distance(selectedObject.transform.position, targetPointer.transform.position) < 0.2f)
+                {
+                    selectedObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    selectedObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
+                    selectedObject.transform.position = targetPointer.transform.position;
+
+                    _dragVelocity = 1f;
+                    return;
+                }
+                    
+                
+                Debug.Log(Vector3.Distance(selectedObject.transform.position, targetPointer.transform.position));
+                var movingVector = (targetPointer.transform.position - selectedObject.transform.position).normalized;
+                Vector3 dir = movingVector * 8f * _dragVelocity;
+
+                _dragVelocity += .008f;
                 selectedObject.GetComponent<Rigidbody>().velocity = dir;
             }
         }
