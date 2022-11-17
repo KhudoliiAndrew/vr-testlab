@@ -55,8 +55,6 @@ namespace wands.grab
                     return;
                 }
                     
-                
-                Debug.Log(Vector3.Distance(selectedObject.transform.position, targetPointer.transform.position));
                 var movingVector = (targetPointer.transform.position - selectedObject.transform.position).normalized;
                 Vector3 dir = movingVector * 8f * _dragVelocity;
 

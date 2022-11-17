@@ -1,7 +1,7 @@
 using UnityEngine;
 using wands.grab;
 
-public class BeamController : MonoBehaviour
+public class ArcController : MonoBehaviour
 {
     [Header("Beam Parameters")] public Transform startBeam;
     public Transform beam2;
