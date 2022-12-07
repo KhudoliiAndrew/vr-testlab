@@ -1,17 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace wands.beam
 {
     public class BeamObjectsController : MonoBehaviour
     {
         public GameObject raycastPointer;
-        public GameObject Bullet_Mark;
-
-        private RaycastHit _rayOutput;
-
         public float targetObjectPointDistance;
-
+        
+        private RaycastHit _rayOutput;
         private const float MaxSpeed = 7f;
+
+        private BeamHitmarkHelper _beamHitmarkHelper;
+
+        private void Awake()
+        {
+            _beamHitmarkHelper = GetComponent<BeamHitmarkHelper>();
+        }
 
         void Update()
         {
@@ -27,14 +32,7 @@ namespace wands.beam
                 Rigidbody objectRigidbody = hittedObject.GetComponent<Rigidbody>();
                 
                 /// 
-
-                var hitMark = Instantiate(Bullet_Mark, _rayOutput.point, Quaternion.LookRotation(_rayOutput.normal));
-                hitMark.transform.Rotate(Vector3.up * 180);
-                hitMark.transform.Translate(Vector3.back * .01f);
- 
-                hitMark.transform.SetParent(hittedObject.transform);
-                Destroy(hitMark, 1.5f);
-                
+                _beamHitmarkHelper.SpawnHitMark(_rayOutput.point, _rayOutput.normal, hittedObject.transform);
                 ///
                 
                 if (objectRigidbody == null) return;
