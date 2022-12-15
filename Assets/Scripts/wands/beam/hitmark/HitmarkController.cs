@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class HitmarkController : MonoBehaviour
 {
-    [HideInInspector] public BeamHitmarkHelper beamHitmarkHelper;
+    public BeamHitmarkHelper beamHitmarkHelper;
+    
+    [HideInInspector] public String id = Guid.NewGuid().ToString();
     
     void Start()
     {
-        Destroy(this, 1.5f);
+          Destroy(this.gameObject, 1.5f);
     }
 
     private void OnDestroy()

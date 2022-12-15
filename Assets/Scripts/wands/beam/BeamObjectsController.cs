@@ -32,7 +32,7 @@ namespace wands.beam
                 Rigidbody objectRigidbody = hittedObject.GetComponent<Rigidbody>();
                 
                 /// 
-                _beamHitmarkHelper.SpawnHitMark(_rayOutput.point, _rayOutput.normal, hittedObject.transform);
+                _beamHitmarkHelper.CreateHitmarks(_rayOutput.point, _rayOutput.normal, hittedObject.transform);
                 ///
                 
                 if (objectRigidbody == null) return;
