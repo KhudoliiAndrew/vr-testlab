@@ -12,4 +12,11 @@ public class Brackable : MonoBehaviour
         Instantiate(brokenObject, transform.position, transform.rotation);
         Destroy(gameObject);
     }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.relativeVelocity.magnitude);
+        if (collision.relativeVelocity.magnitude > 4)
+            Broke();
+    }
 }
