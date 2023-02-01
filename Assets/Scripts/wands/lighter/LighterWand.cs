@@ -22,7 +22,7 @@ namespace wands.lighter
         private void ChangeWandStatus(bool isActive)
         {
             spotLight.SetActive(isActive);
-            head.SetActive(isActive);
+            //head.SetActive(isActive);
         }
     }
 }

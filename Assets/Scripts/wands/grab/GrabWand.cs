@@ -26,7 +26,7 @@ namespace wands.grab
             isActive = isHolding;
 
             beam.SetActive(isHolding);
-            head.SetActive(isHolding);
+            //head.SetActive(isHolding);
         }
 
         protected override void OnThumbstickAxis(Vector2 input)

@@ -22,7 +22,7 @@ namespace wands.beam
             isActive = isHolding;
 
             beam.SetActive(isHolding);
-            head.SetActive(isHolding);
+            //head.SetActive(isHolding);
         }
     }
 }
