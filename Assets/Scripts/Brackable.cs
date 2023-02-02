@@ -16,7 +16,7 @@ public class Brackable : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.relativeVelocity.magnitude);
-        if (collision.relativeVelocity.magnitude > 4)
+        if (collision.relativeVelocity.magnitude > 8)
             Broke();
     }
 }
