@@ -28,6 +28,28 @@ public class ObjectDistance : MonoBehaviour
         return distance;
     }
 
+    public static bool IsInside(Transform position1, Transform position2)
+    {
+        Collider collider1 = position1.GetComponent<Collider>();
+        Collider collider2 = position2.GetComponent<Collider>();
+
+        return collider1.bounds.Intersects(collider2.bounds);
+        
+        if (collider1.bounds.Contains(collider2.bounds.min) && collider1.bounds.Contains(collider2.bounds.max))
+        {
+            // Collider2 is inside Collider1
+            return true;
+        }
+        // Check if collider2 contains collider1
+        else if (collider2.bounds.Contains(collider1.bounds.min) && collider2.bounds.Contains(collider1.bounds.max))
+        {
+           // Collider1 is inside Collider2
+            return true;
+        }
+        return false;
+
+    }
+
     void OnDrawGizmos()
     {
         // Get the colliders of each object
@@ -39,6 +61,7 @@ public class ObjectDistance : MonoBehaviour
         Vector3 closestPoint2 = collider2.ClosestPoint(closestPoint1);
 
         Debug.Log("The distance between the edges of the objects is: " + GetClosestDistance(object1, object2));
+        Debug.Log("Is inside: " + IsInside(object1, object2));
 
         // Draw a gizmo line between the closest points
         Gizmos.color = Color.red;
