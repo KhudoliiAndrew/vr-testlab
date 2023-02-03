@@ -26,6 +26,9 @@ public class BrockenController : MonoBehaviour
         foreach (Transform child in obj)
         {
             child.localScale *= scale;
+
+            if (child.localScale.x < .1f || child.localScale.y < .1f || child.localScale.z < .1f)
+                Destroy(child.gameObject.GetComponent<Rigidbody>());
         }
     }
 }
