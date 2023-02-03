@@ -9,7 +9,7 @@ public class ObjectsSpawner : MonoBehaviour
     public GameObject prefab;
     public int numberOfObjects = 4;
 
-    private List<Vector3> _usedPositions;
+    private List<Transform> _usedPositions;
     public float minDistance = 1.0f;
     
     void Awake()
@@ -19,53 +19,56 @@ public class ObjectsSpawner : MonoBehaviour
 
     private void SpawnObjects()
     {
-        _usedPositions = new List<Vector3>();
+        _usedPositions = new List<Transform>();
 
         Quaternion rotation = Quaternion.Euler(-90, 0, 0);
         Vector3 prefabSize = prefab.GetComponent<Renderer>().bounds.size;
 
         for (int i = 0; i < numberOfObjects; i++)
         {
-            Vector3? nullablePosition = GetUniquePosition(prefabSize);
+            var newObject = Instantiate(prefab, GetRandomPosition(prefabSize), rotation);
 
-            if (nullablePosition == null) return;
+            if (!SetUniquePosition(newObject.transform, prefabSize))
+                DestroyImmediate(newObject);
 
-            Vector3 position = nullablePosition.Value;
-            Instantiate(prefab, position, rotation);
+            _usedPositions.Add(newObject.transform);
         }
     }
 
-    private Vector3? GetUniquePosition(Vector3 scale)
+    private bool SetUniquePosition(Transform newObject, Vector3 scale)
     {
-        Vector3 position;
         int attempts = 0;
         
         do
         {
-            position = transform.position + new Vector3(
-                Random.Range(-limit.x / 2 + scale.x / 2, limit.x / 2 - scale.x / 2),
-                Random.Range(-limit.y / 2 + scale.y, limit.y / 2 - scale.y / 2),
-                Random.Range(-limit.z / 2 + scale.z / 2, limit.z / 2 - scale.z / 2)
-            );
+            newObject.position = GetRandomPosition(scale);
 
             attempts++;
             if (attempts >= 1000)
-                return null;
-        } while (IsTooClose(position));
+                return false;
+        } while (IsTooClose(newObject));
 
-        _usedPositions.Add(position);
-        return position;
+        return true;
     }
 
-    private bool IsTooClose(Vector3 position)
+    private bool IsTooClose(Transform position)
     {
-        foreach (Vector3 usedPosition in _usedPositions)
+        foreach (Transform usedPosition in _usedPositions)
         {
-            if (Vector3.Distance(position, usedPosition) < minDistance)
+            if (ObjectDistance.GetClosestDistance(usedPosition, position) < minDistance)
                 return true;
         }
 
         return false;
+    }
+
+    private Vector3 GetRandomPosition(Vector3 scale)
+    {
+        return transform.position + new Vector3(
+            Random.Range(-limit.x / 2 + scale.x / 2, limit.x / 2 - scale.x / 2),
+            Random.Range(-limit.y / 2 + scale.y, limit.y / 2 - scale.y / 2),
+            Random.Range(-limit.z / 2 + scale.z / 2, limit.z / 2 - scale.z / 2)
+        );
     }
 
     void OnDrawGizmos()

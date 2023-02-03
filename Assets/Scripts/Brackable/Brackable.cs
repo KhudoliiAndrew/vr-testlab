@@ -12,12 +12,12 @@ public class Brackable : MonoBehaviour
         var spawnedObject = Instantiate(brokenObject, transform.position, transform.rotation);
         spawnedObject.AddComponent<BrockenController>();
 
-        AddVelocityToDestoyedObject(spawnedObject);
+        AddVelocityToDestroyedObject(spawnedObject);
         
         Destroy(gameObject);
     }
 
-    private void AddVelocityToDestoyedObject(GameObject gameObject)
+    private void AddVelocityToDestroyedObject(GameObject gameObject)
     {
         foreach (Transform child in gameObject.transform)
         {
