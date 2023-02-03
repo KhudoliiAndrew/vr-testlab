@@ -25,10 +25,10 @@ public class BrockenController : MonoBehaviour
     {
         foreach (Transform child in obj)
         {
+            if (child.localScale.x < .01f || child.localScale.y < .01f || child.localScale.z < .01f)
+                return;
+            
             child.localScale *= scale;
-
-            if (child.localScale.x < .1f || child.localScale.y < .1f || child.localScale.z < .1f)
-                Destroy(child.gameObject.GetComponent<Rigidbody>());
         }
     }
 }

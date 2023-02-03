@@ -74,7 +74,7 @@ namespace wands.grab
             // The wand is pointed to the new object
             ReleaseLastObject();
 
-            if (hittedObject.GetComponent<Rigidbody>() == null)
+            if (hittedObject.GetComponent<Rigidbody>() == null || hittedObject.CompareTag("Ungrappable"))
             {
                 _lastHittedObject = null;
                 return;
