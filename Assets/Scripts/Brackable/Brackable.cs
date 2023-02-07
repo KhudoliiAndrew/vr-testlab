@@ -21,7 +21,7 @@ public class Brackable : MonoBehaviour
     {
         foreach (Transform child in gameObject.transform)
         {
-            if(child.GetComponent<Rigidbody>() == null) return;
+            if(child.GetComponent<Rigidbody>() == null || gameObject.GetComponent<Rigidbody>() == null) return;
             child.GetComponent<Rigidbody>().velocity = gameObject.GetComponent<Rigidbody>().velocity;
         }
 
