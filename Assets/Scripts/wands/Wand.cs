@@ -35,14 +35,14 @@ public abstract class Wand : GrabbableEvents
         if (_isActivated) OnWandActivated();
         else OnWandDisabled();
 
-        OnWandHolding(true);
+        OnWandHolding(_isActivated);
 
         base.OnTriggerDown();
     }
 
     public override void OnTriggerUp()
     {
-        OnWandHolding(false);
+        //OnWandHolding(false);
 
         base.OnTriggerUp();
     }
