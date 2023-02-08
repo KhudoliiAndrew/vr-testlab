@@ -7,14 +7,6 @@ public class ObjectDistance : MonoBehaviour
     public Transform object1;
     public Transform object2;
 
-    // Start is called before the first frame update
-    void Update()
-    {
-        
-
-        Debug.Log("The distance between the edges of the objects is: " + GetClosestDistance(object1, object2));
-    }
-
     public static float GetClosestDistance(Transform position1, Transform position2)
     {
         Collider collider1 = position1.GetComponent<Collider>();
@@ -34,20 +26,6 @@ public class ObjectDistance : MonoBehaviour
         Collider collider2 = position2.GetComponent<Collider>();
 
         return collider1.bounds.Intersects(collider2.bounds);
-        
-        if (collider1.bounds.Contains(collider2.bounds.min) && collider1.bounds.Contains(collider2.bounds.max))
-        {
-            // Collider2 is inside Collider1
-            return true;
-        }
-        // Check if collider2 contains collider1
-        else if (collider2.bounds.Contains(collider1.bounds.min) && collider2.bounds.Contains(collider1.bounds.max))
-        {
-           // Collider1 is inside Collider2
-            return true;
-        }
-        return false;
-
     }
 
     void OnDrawGizmos()
