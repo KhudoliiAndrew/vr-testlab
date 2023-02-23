@@ -19,6 +19,5 @@ public class BeamController : MonoBehaviour
     private void Update()
     {
         vfx.SetFloat("length", _beamObjectsController.targetObjectPointDistance * .5f);
-
     }
 }

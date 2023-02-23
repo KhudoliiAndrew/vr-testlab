@@ -40,13 +40,6 @@ public abstract class Wand : GrabbableEvents
         base.OnTriggerDown();
     }
 
-    public override void OnTriggerUp()
-    {
-        //OnWandHolding(false);
-
-        base.OnTriggerUp();
-    }
-
     public override void OnRelease()
     {
         if (disableWhenDropped)

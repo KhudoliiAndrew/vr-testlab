@@ -14,6 +14,7 @@ namespace wands.grab
 
         private float _targetObjectPointDistance;
         private float _dragVelocity = 1f;
+        
         private void Awake()
         {
             GetComponent<GrabWand>().OnThumbstickAxisCallback = OnThumbstickAxisCallback;
@@ -44,7 +45,7 @@ namespace wands.grab
             {
                 float distance =
                     Vector3.Distance(selectedObject.transform.position, targetPointer.transform.position);
-                if (Vector3.Distance(selectedObject.transform.position, targetPointer.transform.position) < 0.2f)
+                if (distance < 0.2f)
                 {
                     selectedObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                     selectedObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;

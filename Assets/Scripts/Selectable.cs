@@ -31,13 +31,10 @@ public class Selectable : MonoBehaviour
 
     private void _HoverObject()
     {
-
         _controller.isVisible = true;
         _controller.outlineColor = Dimens.OutlineHoverColor;
     }
-
     
-
     private void _SelectObject()
     {
         _controller.isVisible = true;

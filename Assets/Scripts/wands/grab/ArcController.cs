@@ -3,7 +3,8 @@ using wands.grab;
 
 public class ArcController : MonoBehaviour
 {
-    [Header("Beam Parameters")] public Transform startBeam;
+    [Header("Beam Parameters")] 
+    public Transform startBeam;
     public Transform beam2;
     public Transform beam3;
     public Transform endBeam;
